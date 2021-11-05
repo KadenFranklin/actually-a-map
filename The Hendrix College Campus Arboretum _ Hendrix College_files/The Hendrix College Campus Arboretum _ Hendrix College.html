@@ -86,30 +86,18 @@ fbq('track', 'PageView');
 
 				var center = map.getCenter();
 
-        //Creates a pushpin
-        var pin = new Microsoft.Maps.Pushpin(center, {
-            title: 'Tree',
-            text: '1'
-        });
+				Excel.run(function (context) {
+					var sheet = context.workbook.worksheets.getItem("HA Tree List");
+					var expensesTable = sheer.tables.getItem("HA Tree List");
 
-				// Adds it to map
-				map.entities.push(pin);
-			}
+					var headerRange = expensesTable.getHeaderRowRange().load("values");
+					var bodyRange = expensesTable.getDataBodyRange().load("values");
+					var columnRange = expensesTable.columns.getItem("Name").getDataBodyRange().load("values");
+					for (let i = 0; i < columnRange; i++) {
+						console.log(i);
+					}
+				});
 
-				// Try # 2
-				// Excel.run(function (context) {
-				// 	var sheet = context.workbook.worksheets.getItem("HA Tree List");
-				// 	var expensesTable = sheer.tables.getItem("HA Tree List");
-				//
-				// 	var headerRange = expensesTable.getHeaderRowRange().load("values");
-				// 	var bodyRange = expensesTable.getDataBodyRange().load("values");
-				// 	var columnRange = expensesTable.columns.getItem("Name").getDataBodyRange().load("values");
-				// 	for (let i = 0; i < columnRange; i++) {
-				// 		console.log(i);
-				// 	}
-				// });
-
-				// Try #1
 				// for x in excel.file {
 				// 	var tree_space = new Microsoft.Maps.location(som_long, som_lat)
 				// 	var pin = new Microsoft.Maps.Pushpin(tree_space, {
@@ -117,7 +105,7 @@ fbq('track', 'PageView');
 				// 	});
 				// 	map.entities.push(pin);
 				// }
-
+    }
     </script>
 
 </head>
