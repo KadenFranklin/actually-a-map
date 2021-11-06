@@ -84,14 +84,30 @@ fbq('track', 'PageView');
             zoom: 16
         });
 
+				//makes hidden infobox
+        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+            visible: false
+        });
+
+        //assign it
+        infobox.setMap(map);
+				//pins need a location to be set t
+				// can set it to long/Lat latter
 				var center = map.getCenter();
 
         //Creates a pushpin
         var pin = new Microsoft.Maps.Pushpin(center, {
             title: 'Tree',
-            text: '1'
+            text: '1',
+						color: 'blue'
         });
-
+				//have tro give pin metadata for some reason
+				pin.metadata = {
+            title: 'Pin Title',
+            description: 'Pin discription'
+        };
+				// allows it to be clickable
+				Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
 				// Adds it to map
 				map.entities.push(pin);
 			}
@@ -118,8 +134,21 @@ fbq('track', 'PageView');
 				// 	map.entities.push(pin);
 				// }
 
-    </script>
+				function pushpinClicked(e) {
+        //Make sure the infobox has something to display.
+        if (e.target.metadata) {
+            //Set the infobox options with the metadata of the pushpin.
+            infobox.setOptions({
+                location: e.target.getLocation(),
+                title: e.target.metadata.title,
+                description: e.target.metadata.description,
+                visible: true
+            });
+        }
+    }
 
+    </script>
+		<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO' async defer></script>
 </head>
 <body id="ctl00_ctl00_UiMasterBody" style="zoom: 1;">
     <!-- Google Tag Manager (noscript) -->
