@@ -75,46 +75,51 @@ fbq('track', 'PageView');
 <script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
 
     <script>
-    function GetMap()
-    {
+		var map;
+		var infoboxTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+		// sets up infobox template
+    function GetMap() {
         var map = new Microsoft.Maps.Map('#myMap', {
             credentials: 'Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO',
             center: new Microsoft.Maps.Location(35.10013507872911,-92.44089554043532),
             mapTypeId: Microsoft.Maps.MapTypeId.aerial,
             zoom: 16
         });
-
 				//makes hidden infobox
         infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
-            visible: false
+          	visible: false
         });
-
-        //assign it
-        infobox.setMap(map);
-				//pins need a location to be set t
+				// adds the infobox to the map
+				infobox.setMap(map);
 				// can set it to long/Lat latter
 				var center = map.getCenter();
-
+				// Eventual for loop that will be used to make a pin for each tree:
+				// for (var i = 0; i < randomLocations.length; i++) {
+        //     var pin = new Microsoft.Maps.Pushpin(randomLocations[i]);
+				//
+        //     //Store some metadata with the pushpin.
+        //     pin.metadata = {
+        //         title: 'Tree: ' + i,
+        //         description: 'Tree Description' + i
+        //     };
         //Creates a pushpin
         var pin = new Microsoft.Maps.Pushpin(center, {
             title: 'Tree',
             text: '1',
 						color: 'blue'
         });
-				//have tro give pin metadata for some reason
-				pin.metadata = {
-            title: 'Pin Title',
-            description: 'Pin discription'
+				//example metadata, 	then adds eventhandler, and puts pins on the map
+        pin.metadata = {
+            title: 'Tree Title',
+            description: 'Tree discription'
         };
-				// allows it to be clickable
 				Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
-				// Adds it to map
 				map.entities.push(pin);
 			}
 
 				// Try # 2
 				// Excel.run(function (context) {
-				// 	var sheet = context.workbook.worksheets.getItem("HA Tree List");
+				// 	var sheet = context.workbook.worksheets.getItem("HA Tree List.xlsx");
 				// 	var expensesTable = sheer.tables.getItem("HA Tree List");
 				//
 				// 	var headerRange = expensesTable.getHeaderRowRange().load("values");
@@ -135,21 +140,73 @@ fbq('track', 'PageView');
 				// }
 
 				function pushpinClicked(e) {
-        //Make sure the infobox has something to display.
         if (e.target.metadata) {
-            //Set the infobox options with the metadata of the pushpin.
+						// //Example title and desc. for the infobox
+		        // var title = 'Tree Example Title';
+		        // var description = '<img src="assets/this.png" align="left" style="margin-right:5px;"/>';
             infobox.setOptions({
-                location: e.target.getLocation(),
-                title: e.target.metadata.title,
-                description: e.target.metadata.description,
-                visible: true
+								location: e.target.getLocation(),
+						    zIndex: 0,
+						    offset:new Microsoft.Maps.Point(10,0),
+								htmlContent: infoboxTemplate.replace('{title}', "<h3>Tree Title Ex.</h3>" ).replace('{description}', '<img src="assets/Tree.0001.Pine.jpg" align="left" style="margin-right:5px;"> <h5>Some Example text about the pine tree.</h5> <a href ="https://www.hendrix.edu/biology/biology.aspx?id=3645"> Example link to tree page in description</a> </img>'),
+						    showCloseButton: true,
+								visible: true
             });
         }
     }
-
     </script>
 		<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO' async defer></script>
-</head>
+		<style>
+		        /* InfoBox Design # 1 */
+		        /* .customInfobox {
+		            background-color: rgba(256,256,256,0.5);
+		            color: black;
+								max-width: 200px;
+		            border-radius: 10px;
+		            padding: 10px;
+		            font-size:12px;
+		            pointer-events:auto !important;
+		        }
+		            .customInfobox .title {
+		                font-size: 14px;
+		                font-weight: bold;
+		                margin-bottom: 5px;
+		            } */
+
+						/* InfoBox Design # 2 */
+		        .customInfobox {
+		            background-color: rgba(0,0,0,0.5);
+		            color: white;
+		            max-width: 200px;
+		            border-radius: 10px;
+		            padding: 10px;
+		            font-size:12px;
+		            pointer-events:auto !important;
+		        }
+		            .customInfobox .title {
+		                font-size: 14px;
+		                font-weight: bold;
+		                margin-bottom: 5px;
+			            }
+
+					 /* InfoBox Design # 3 */
+					 /* .customInfobox {
+							 background-color: rgba(211,84,0,0.62);
+							 color: black;
+							 max-width: 200px;
+							 border-radius: 10px;
+							 padding: 10px;
+							 font-size:12px;
+							 pointer-events:auto !important;
+					 }
+							 .customInfobox .title {
+									 font-size: 14px;
+									 font-weight: bold;
+									 margin-bottom: 5px;
+							 } */
+
+			 </style>
+	</head>
 <body id="ctl00_ctl00_UiMasterBody" style="zoom: 1;">
     <!-- Google Tag Manager (noscript) -->
     <noscript>
