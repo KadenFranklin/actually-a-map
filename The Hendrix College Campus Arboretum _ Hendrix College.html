@@ -73,17 +73,20 @@ fbq('track', 'PageView');
 <script async="" data-requirecontext="_" data-requiremodule="hdx-jquery.autocomplete.scroll" src="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/jquery.autocomplete.scroll.1.0.min.js.download"></script>
 
 <script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
-
-    <script>
+<script>
+    //Start of MAP JS /
 		var map;
 		var infoboxTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
 		// sets up infobox template
     function GetMap() {
+				// change bounds later to be specifc to tree data
+				var bounds = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(35.12,-92.48), new Microsoft.Maps.Location(35.05,-92.42));
         var map = new Microsoft.Maps.Map('#myMap', {
             credentials: 'Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO',
             center: new Microsoft.Maps.Location(35.10013507872911,-92.44089554043532),
             mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-            zoom: 16
+            zoom: 16.5,
+						maxBounds: bounds
         });
 				//makes hidden infobox
         infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
@@ -91,74 +94,72 @@ fbq('track', 'PageView');
         });
 				// adds the infobox to the map
 				infobox.setMap(map);
+				// Testing importing excel files
+				// var XLSX = require('xlsx');
+				// var workbook = XLSX.readFile('HA Tree List.xlsx');
+				//
+				// var files = workbook.target.files, f = files[0];
+  			// var reader = new FileReader();
+  			// reader.onload = function(workbook) {
+    		// 	var data = new Uint8Array(workbook.target.result);
+    		// 	var workbook = XLSX.read(data, {type: 'array'});
+				//
+				// 	console.log(workbook);
+				// };
+				// reader.readAsArrayBuffer(f);
+				// input_dom_element.addEventListener('change', handleFile, false);
+
 				// can set it to long/Lat latter
 				var center = map.getCenter();
-				// Eventual for loop that will be used to make a pin for each tree:
-				// for (var i = 0; i < randomLocations.length; i++) {
-        //     var pin = new Microsoft.Maps.Pushpin(randomLocations[i]);
-				//
-        //     //Store some metadata with the pushpin.
-        //     pin.metadata = {
-        //         title: 'Tree: ' + i,
-        //         description: 'Tree Description' + i
-        //     };
-        //Creates a pushpin
-        var pin = new Microsoft.Maps.Pushpin(center, {
-            title: 'Tree',
-            text: '1',
-						color: 'blue'
-        });
-				//example metadata, 	then adds eventhandler, and puts pins on the map
-        pin.metadata = {
-            title: 'Tree Title',
-            description: 'Tree discription'
-        };
+				//set a list of random locations
+				var randomLocations = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+				// for loop sets pins to random locations
+				for (var i = 0; i < randomLocations.length; i++) {
+            var pin = new Microsoft.Maps.Pushpin(randomLocations[i],{
+							text: ''+ (i +  1),
+							color: 'blue'
+						});
+            // Need metadata with each pushpin to be initated
+						// but it will all be redisplayed afterwards (200+ pics rn)
+						// we will need to edit this to have variables for number and type of tree
+            pin.metadata = {
+								text: ''+ (i +  1),
+                title: 'Tree Number: ' + (i + 1),
+                description: 'Tree Description: Ex.' + (i + 1)
+            };
 				Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+				// pushes each pin to the map
 				map.entities.push(pin);
 			}
-
-				// Try # 2
-				// Excel.run(function (context) {
-				// 	var sheet = context.workbook.worksheets.getItem("HA Tree List.xlsx");
-				// 	var expensesTable = sheer.tables.getItem("HA Tree List");
-				//
-				// 	var headerRange = expensesTable.getHeaderRowRange().load("values");
-				// 	var bodyRange = expensesTable.getDataBodyRange().load("values");
-				// 	var columnRange = expensesTable.columns.getItem("Name").getDataBodyRange().load("values");
-				// 	for (let i = 0; i < columnRange; i++) {
-				// 		console.log(i);
-				// 	}
-				// });
-
-				// Try #1
-				// for x in excel.file {
-				// 	var tree_space = new Microsoft.Maps.location(som_long, som_lat)
-				// 	var pin = new Microsoft.Maps.Pushpin(tree_space, {
-				// 		text: primary id
-				// 	});
-				// 	map.entities.push(pin);
-				// }
-
+		}
 				function pushpinClicked(e) {
         if (e.target.metadata) {
-						// //Example title and desc. for the infobox
-		        // var title = 'Tree Example Title';
-		        // var description = '<img src="assets/this.png" align="left" style="margin-right:5px;"/>';
-            infobox.setOptions({
+								infobox.setOptions({
 								location: e.target.getLocation(),
 						    zIndex: 0,
 						    offset:new Microsoft.Maps.Point(10,0),
-								htmlContent: infoboxTemplate.replace('{title}', "<h3>Tree Title Ex.</h3>" ).replace('{description}', '<img src="assets/Tree.0001.Pine.jpg" align="left" style="margin-right:5px;"> <h5>Some Example text about the pine tree.</h5> <a href ="https://www.hendrix.edu/biology/biology.aspx?id=3645"> Example link to tree page in description</a> </img>'),
-						    showCloseButton: true,
+								// htmlcontent is just setting up the box to display everything
+								// note the distinction in quotation marks '' vs ""
+								htmlContent: infoboxTemplate.replace('{title}', '<a class="infobox-close" href="javascript:closeInfobox()">X</a> <h3 id="Treetitle"> </h3>' ).replace('{description}', '<img id = "Treeimg" src="assets/Tree.0001.Pine.jpg" align="left" style="margin-right:5px;"> <h5 id ="Treedesc"> </h5> <a id ="Treelink" href ="https://www.hendrix.edu/"> Click here to learn more about this tree. </a> </img>'),
 								visible: true
             });
-        }
+						//these lines replace elements of the metadata afterwards
+						// can change these later but this is all data displayed in infobox
+						Treetitle.innerText = e.target.metadata.title;
+						Treedesc.innerText = e.target.metadata.description;
+						Treeimg.setAttribute("src", 'assets/Tree.000' + e.target.metadata.text +'.Pine.jpg');
+						Treelink.setAttribute("src", 'https://www.hendrix.edu/biology/biology.aspx?id=3645')
+				}
     }
+		function closeInfobox() {
+  		infobox.setOptions({ visible: false });
+		}
     </script>
 		<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO' async defer></script>
+<!-- // End of mapp js -->
 		<style>
 		        /* InfoBox Design # 1 */
-		        /* .customInfobox {
+		        .customInfobox {
 		            background-color: rgba(256,256,256,0.5);
 		            color: black;
 								max-width: 200px;
@@ -171,10 +172,10 @@ fbq('track', 'PageView');
 		                font-size: 14px;
 		                font-weight: bold;
 		                margin-bottom: 5px;
-		            } */
+		            }
 
 						/* InfoBox Design # 2 */
-		        .customInfobox {
+		        /* .customInfobox {
 		            background-color: rgba(0,0,0,0.5);
 		            color: white;
 		            max-width: 200px;
@@ -187,7 +188,7 @@ fbq('track', 'PageView');
 		                font-size: 14px;
 		                font-weight: bold;
 		                margin-bottom: 5px;
-			            }
+			            } */
 
 					 /* InfoBox Design # 3 */
 					 /* .customInfobox {
@@ -430,9 +431,17 @@ Sys.WebForms.PageRequestManager._initialize('ctl00$ctl00$BodyContent$ScriptManag
                             </header>
 								<!-- START OF LEFT SECTION -->
     <div id="ctl00_ctl00_BodyContent_MiddleMainContentPlaceHolder_ContentBlockMain">
-			<div id="myMap" style="position:relative;width:700px;height:500px;"></div>
+			<div id="myMap" class="myMap" style="width:700px;height:500px;"></div>
 			<!-- add a border or something later -->
-
+			<style>
+									/* InfoBox Design # 2 */
+					        .myMap {
+					            background-color: rgba(0,0,0,1);
+											border: 5px solid black;
+					            border-radius: 5px;
+					            font-size:12px;
+					        }
+			</style>
 <!-- <p align="left"><strong>"Consistent with its community orientation and the educational goals of Hendrix</strong></p>
 <p align="left"><strong>College, the development of the campus arboretum was intended to provide an</strong></p>
 <p align="left"><strong>educational center for not only Hendrix College, but for the other colleges, public</strong></p>
@@ -526,7 +535,18 @@ $ektron.ajax(
                 <div class="col-xs-12 sectionNav-header">
                     <header>
 											<h2 class="sectionNav-home">
-                            <a href="https://www.hendrix.edu/biology/">Biology and Health Sciences Department  Home</a>
+
+												<!-- Im going to change a bunch of the <a> tags to not have links -->
+                            <a id ="search_bar">
+															<form action="/button-type">
+															<label for="search">Search</label>
+															<input name="search"><button type="submit" disabled>Submit</button>
+														</form> </a>
+														<a id ="back_button">
+															<form action="/button-type">
+															<button type="reset">Back</button><br><br>
+														</form>
+														</a>
                         </h2>
 
                     </header>
@@ -534,146 +554,53 @@ $ektron.ajax(
                 <div class="col-xs-12 sectionNav-primary">
                     <ul class="nav primary">
 
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/Catalog/Academic_Departments_and_Programs/Biology_and_Health_Sciences/" target="_self">Degree Requirements</a>
-                                    <ul>
+																<div class="dropdown">
+																  <button onclick="myFunction()" class="dropbtn">Different Species</button>
+																  <div id="myDropdown" class="dropdown-content">
+																	<li class="">
+																			<a target="_self">Oaks</a>
+																			<ul>
 
-                                    </ul>
-                                </li>
+																			</ul>
+																	</li>
 
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/Catalog/Academic_Departments_and_Programs/Biology_and_Health_Sciences/#coursesBookmark" target="_self">Course Descriptions</a>
-                                    <ul>
+																	<li class="">
+																			<a target="_self">Ashes</a>
+																			<ul>
 
-                                    </ul>
-                                </li>
+																			</ul>
+																	</li>
 
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=87389" target="_self">Learning Goals</a>
-                                    <ul>
+																	<li class="">
+																			<a  target="_self">Crepe Myrtles</a>
+																			<ul>
 
-                                    </ul>
-                                </li>
+																			</ul>
+																	</li>
+																  </div>
+																</div>
 
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/biology/faculty" target="_self">Faculty and Staff</a>
-                                    <ul>
+																<ul>
 
-                                    </ul>
-                                </li>
-
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=3622" target="_self">An Overview</a>
-                                    <ul>
-
-                                    </ul>
-                                </li>
+																</ul>
 
                                 <li class="">
-                                    <a href="https://www.hendrix.edu/Catalog/Academic_Departments_and_Programs/Biology_and_Health_Sciences/" target="_self">Health Science Major</a>
+                                    <a target="_self">Oldest and Rarest Trees</a>
                                     <ul>
 
                                     </ul>
                                 </li>
 
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/preprofessional/default.aspx?id=40707" target="_self">Pre-Professional Health Resources</a>
+																<li class="">
+                                    <a target="_self">Trees with Plaques</a>
                                     <ul>
 
                                     </ul>
                                 </li>
-
-                                <li class="">
-                                    <a href="http://www2.hendrix.edu/biology/dearolf/summer15rsrchindex.html" target="_self">Research</a>
-                                    <ul>
-
-                                    </ul>
-                                </li>
-
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=4276" target="_self">Facilities</a>
-                                    <ul>
-
-                                    </ul>
-                                </li>
-
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=3626" target="_self">Departmental Awards</a>
-                                    <ul>
-
-                                    </ul>
-                                </li>
-
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=4367" target="_self">Resources for Biology Students</a>
-                                    <ul>
-
-                                    </ul>
-                                </li>
-
-                                <li class="">
-                                    <a href="https://www.hendrix.edu/internationalprograms/internationalprograms.aspx?id=35318" target="_self">Summer Semester in Costa Rica</a>
-                                    <ul>
-
-                                    </ul>
-                                </li>
-
-                                <li class="nest">
-                                    <a href="https://www.hendrix.edu/WorkArea/linkit.aspx?LinkIdentifier=ID&amp;ItemID=41117" target="um">The Arkansas Garden</a>
-                                    <ul>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41118" target="_self">Rare and Endemic</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41119" target="_self">Butterfly and Hummingbird</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41120" target="_self">Bog</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41121" target="_self">Natural Trees and Plants</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41122" target="_self">Natural Trees and Shrubs</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41123" target="_self">Medicinal</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                                <li class="">
-                                                    <a href="https://www.hendrix.edu/biology/biology.aspx?id=41124" target="_self">Prairie</a>
-                                                    <ul>
-
-                                                    </ul>
-                                                </li>
-
-                                    </ul>
-                                </li>
-
+																<a id ="search_bar">
+																	<form action="/button-type"><button type="submit" disabled>Submit</button>
+																</form> </a>
+									</div>
                     </ul>
                 </div>
                 <div class="col-xs-12 sectionNav-secondary">
@@ -683,7 +610,52 @@ $ektron.ajax(
                 </div>
             </div>
         </nav>
+<style>
+/* Dropdown Button */
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
 
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: inline;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:inline;}
+</style>
                     <div id="menucolumnsubcontent">
 
 
