@@ -116,14 +116,14 @@ fbq('track', 'PageView');
 				// for loop sets pins to random locations
 				for (var i = 0; i < randomLocations.length; i++) {
             var pin = new Microsoft.Maps.Pushpin(randomLocations[i],{
-							text: ''+ (i +  1),
+							text: ''+ (i + 1),
 							color: 'blue'
 						});
             // Need metadata with each pushpin to be initated
 						// but it will all be redisplayed afterwards (200+ pics rn)
 						// we will need to edit this to have variables for number and type of tree
             pin.metadata = {
-								text: ''+ (i +  1),
+								text: ''+ (i + 1),
                 title: 'Tree Number: ' + (i + 1),
                 description: 'Tree Description: Ex.' + (i + 1)
             };
