@@ -19,97 +19,8 @@
 	<link href="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/style3.css" rel="stylesheet">
 	<link href="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/e.min.css" rel="stylesheet">
 	<link href="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/font-awesome.min.css" rel="stylesheet">
-	<title>
-	The Hendrix College Campus Arboretum | Hendrix College
-</title>
-<meta property="fb:app_id" content="160383297496277">
-<link rel="stylesheet" type="text/css" href="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/ektron.stylesheet.ashx">
 
-
-
-<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
-
-<script>
-    //Start of MAP JS /
-		var map;
-		var infoboxTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
-		// sets up infobox template
-    function GetMap() {
-				// change bounds later to be specifc to tree data
-				var bounds = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(35.12,-92.48), new Microsoft.Maps.Location(35.05,-92.42));
-        var map = new Microsoft.Maps.Map('#myMap', {
-            credentials: 'Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO',
-            center: new Microsoft.Maps.Location(35.10013507872911,-92.44089554043532),
-            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-            zoom: 16.5,
-						maxBounds: bounds
-        });
-				//makes hidden infobox
-        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
-          	visible: false
-        });
-				// adds the infobox to the map
-				infobox.setMap(map);
-				// Testing importing excel files
-				// var XLSX = require('xlsx');
-				// var workbook = XLSX.readFile('HA Tree List.xlsx');
-				//
-				// var files = workbook.target.files, f = files[0];
-  			// var reader = new FileReader();
-  			// reader.onload = function(workbook) {
-    		// 	var data = new Uint8Array(workbook.target.result);
-    		// 	var workbook = XLSX.read(data, {type: 'array'});
-				//
-				// 	console.log(workbook);
-				// };
-				// reader.readAsArrayBuffer(f);
-				// input_dom_element.addEventListener('change', handleFile, false);
-
-				// can set it to long/Lat latter
-				var center = map.getCenter();
-				//set a list of random locations
-				var randomLocations = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
-				// for loop sets pins to random locations
-				for (var i = 0; i < randomLocations.length; i++) {
-            var pin = new Microsoft.Maps.Pushpin(randomLocations[i],{
-							text: ''+ (i + 1),
-							color: 'blue'
-						});
-            // Need metadata with each pushpin to be initated
-						// but it will all be redisplayed afterwards (200+ pics rn)
-						// we will need to edit this to have variables for number and type of tree
-            pin.metadata = {
-								text: ''+ (i + 1),
-                title: 'Tree Number: ' + (i + 1),
-                description: 'Tree Description: Ex.' + (i + 1)
-            };
-				Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
-				// pushes each pin to the map
-				map.entities.push(pin);
-			}
-		}
-
-		function pushpinClicked(e) {
-				if (e.target.metadata) {
-						infobox.setOptions({
-								location: e.target.getLocation(),
-								zIndex: 0,
-								offset: new Microsoft.Maps.Point(10, 0),
-								htmlContent: infoboxTemplate.replace('{title}', '<a class="infobox-close" href="javascript:closeInfobox()">X</a> <h3 id="Treetitle"> </h3>').replace('{description}', '<h5 id ="Treedesc"> </h5> <a style="color:blue; font-size:14px;" id ="Treelink" href ="/TreePage/Index?id=' + e.target.metadata.id + '"> Click here to learn more about this tree. </a>'),
-								visible: true
-						});
-						Treetitle.innerText = e.target.metadata.title;
-						Treedesc.innerText = e.target.metadata.description;
-				}
-		}
-
-		function closeInfobox() {
-				infobox.setOptions({ visible: false });
-		}
-
-    </script>
-		<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO' async defer></script>
-<!-- // End of mapp js -->
+	<title>The Hendrix College Campus Arboretum | Hendrix College </title>
 		<style>
 		/* comment out designs one at a time, or just copy paste color values */
 		        /* InfoBox Design # 1 */
@@ -194,19 +105,6 @@ color: black;
 <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE3ODcxMzkyODMPFgoeCE1hc3RIZWFkBQdCaW9sb2d5HgxDb250ZW50VGl0bGUFJFRoZSBIZW5kcml4IENvbGxlZ2UgQ2FtcHVzIEFyYm9yZXR1bR4GTWVudUlEKClZU3lzdGVtLkludDY0LCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkDMTc3HhBDdXJyZW50Q29udGVudElEKCsEBDM2NDUeD1NlY29uZGFyeU1lbnVJRCgrBAQxMDk4FgJmD2QWAmYPZBYCAgMPZBYCZhBkZBYGAgEPZBYIAgMPFgIeC18hSXRlbUNvdW50AgcWDmYPZBYCZg8VAgcvZW5yb2xsB0RlcG9zaXRkAgEPZBYCZg8VAg8vbGlmZWF0aGVuZHJpeC8PTGlmZSBhdCBIZW5kcml4ZAICD2QWAmYPFQILL2FjYWRlbWljcy8JQWNhZGVtaWNzZAIDD2QWAmYPFQIHL3Zpc2l0LwhWaXNpdCBVc2QCBA9kFgJmDxUCDi9maW5hbmNpYWxhaWQvDkNvc3QgJmFtcDsgQWlkZAIFD2QWAmYPFQILL2FkbWlzc2lvbi8JQWRtaXNzaW9uZAIGD2QWAmYPFQIGL2FwcGx5BUFwcGx5ZAIFDxYCHwUCBBYIZg9kFgJmDxUCEGN1cnJlbnRzdHVkZW50cy8IU3R1ZGVudHNkAgEPZBYCZg8VAghwYXJlbnRzLwdQYXJlbnRzZAICD2QWAmYPFQIHYWx1bW5pLwZBbHVtbmlkAgMPZBYCZg8VAg1mYWN1bHR5c3RhZmYvDUZhY3VsdHkvU3RhZmZkAgkPFgIfBQIEFghmD2QWAmYPFQIQY3VycmVudHN0dWRlbnRzLwhTdHVkZW50c2QCAQ9kFgJmDxUCCHBhcmVudHMvB1BhcmVudHNkAgIPZBYCZg8VAgdhbHVtbmkvBkFsdW1uaWQCAw9kFgJmDxUCDWZhY3VsdHlzdGFmZi8NRmFjdWx0eS9TdGFmZmQCDw8WAh8FAgcWDmYPZBYCZg8VAgcvZW5yb2xsB0RlcG9zaXRkAgEPZBYCZg8VAg8vbGlmZWF0aGVuZHJpeC8PTGlmZSBhdCBIZW5kcml4ZAICD2QWAmYPFQILL2FjYWRlbWljcy8JQWNhZGVtaWNzZAIDD2QWAmYPFQIHL3Zpc2l0LwhWaXNpdCBVc2QCBA9kFgJmDxUCDi9maW5hbmNpYWxhaWQvDkNvc3QgJmFtcDsgQWlkZAIFD2QWAmYPFQILL2FkbWlzc2lvbi8JQWRtaXNzaW9uZAIGD2QWAmYPFQIGL2FwcGx5BUFwcGx5ZAIDD2QWCAIHDxYCHgRUZXh0BSRUaGUgSGVuZHJpeCBDb2xsZWdlIENhbXB1cyBBcmJvcmV0dW1kAgkPZBYCAgEPDxYGHgVUaXRsZQUkVGhlIEhlbmRyaXggQ29sbGVnZSBDYW1wdXMgQXJib3JldHVtHhNDYXRhbG9nSWNvbkltYWdlVXJsBS4vV29ya0FyZWEvaW1hZ2VzL2FwcGxpY2F0aW9uL2ljb25fZG9jdW1lbnQuZ2lmHhFUaXRsZUljb25JbWFnZVVybGVkZAILDw8WDh4ISGlkZU1lbnVoHg1EZWZhdWx0TWVudUlkKCsEAzE3Nx4QU2VjdGlvblRpdGxlVGV4dAUmQmlvbG9neSBhbmQgSGVhbHRoIFNjaWVuY2VzIERlcGFydG1lbnQeD1NlY3Rpb25UaXRsZVVybAUKfi9iaW9sb2d5Lx4PVGFyZ2V0Q29udGVudElEKCsEBDM2NDUeEUN1cnJlbnRDb250ZW50VXJsBR0vYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9MzY0NR4PU2Vjb25kYXJ5TWVudUlkKCsEBDEwOThkFgJmD2QWAmYPZBYEZg8WAh8FAg0WGmYPZBYEZg8VAwkgY2xhc3M9IiJeIGhyZWY9Jy9DYXRhbG9nL0FjYWRlbWljX0RlcGFydG1lbnRzX2FuZF9Qcm9ncmFtcy9CaW9sb2d5X2FuZF9IZWFsdGhfU2NpZW5jZXMvJyB0YXJnZXQ9J19zZWxmJxNEZWdyZWUgUmVxdWlyZW1lbnRzZAIBDxYCHwVmZAIBD2QWBGYPFQMJIGNsYXNzPSIibiBocmVmPScvQ2F0YWxvZy9BY2FkZW1pY19EZXBhcnRtZW50c19hbmRfUHJvZ3JhbXMvQmlvbG9neV9hbmRfSGVhbHRoX1NjaWVuY2VzLyNjb3Vyc2VzQm9va21hcmsnIHRhcmdldD0nX3NlbGYnE0NvdXJzZSBEZXNjcmlwdGlvbnNkAgEPFgIfBWZkAgIPZBYEZg8VAwkgY2xhc3M9IiI1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD04NzM4OScgdGFyZ2V0PSdfc2VsZicOTGVhcm5pbmcgR29hbHNkAgEPFgIfBWZkAgMPZBYEZg8VAwkgY2xhc3M9IiInIGhyZWY9Jy9iaW9sb2d5L2ZhY3VsdHknIHRhcmdldD0nX3NlbGYnEUZhY3VsdHkgYW5kIFN0YWZmZAIBDxYCHwVmZAIED2QWBGYPFQMJIGNsYXNzPSIiNCBocmVmPScvYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9MzYyMicgdGFyZ2V0PSdfc2VsZicLQW4gT3ZlcnZpZXdkAgEPFgIfBWZkAgUPZBYEZg8VAwkgY2xhc3M9IiJeIGhyZWY9Jy9DYXRhbG9nL0FjYWRlbWljX0RlcGFydG1lbnRzX2FuZF9Qcm9ncmFtcy9CaW9sb2d5X2FuZF9IZWFsdGhfU2NpZW5jZXMvJyB0YXJnZXQ9J19zZWxmJxRIZWFsdGggU2NpZW5jZSBNYWpvcmQCAQ8WAh8FZmQCBg9kFgRmDxUDCSBjbGFzcz0iIlQgaHJlZj0naHR0cHM6Ly93d3cuaGVuZHJpeC5lZHUvcHJlcHJvZmVzc2lvbmFsL2RlZmF1bHQuYXNweD9pZD00MDcwNycgdGFyZ2V0PSdfc2VsZichUHJlLVByb2Zlc3Npb25hbCBIZWFsdGggUmVzb3VyY2VzZAIBDxYCHwVmZAIHD2QWBGYPFQMJIGNsYXNzPSIiViBocmVmPSdodHRwOi8vd3d3Mi5oZW5kcml4LmVkdS9iaW9sb2d5L2RlYXJvbGYvc3VtbWVyMTVyc3JjaGluZGV4Lmh0bWwnIHRhcmdldD0nX3NlbGYnCFJlc2VhcmNoZAIBDxYCHwVmZAIID2QWBGYPFQMJIGNsYXNzPSIiNCBocmVmPScvYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9NDI3NicgdGFyZ2V0PSdfc2VsZicKRmFjaWxpdGllc2QCAQ8WAh8FZmQCCQ9kFgRmDxUDCSBjbGFzcz0iIjQgaHJlZj0nL2Jpb2xvZ3kvYmlvbG9neS5hc3B4P2lkPTM2MjYnIHRhcmdldD0nX3NlbGYnE0RlcGFydG1lbnRhbCBBd2FyZHNkAgEPFgIfBWZkAgoPZBYEZg8VAwkgY2xhc3M9IiI0IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MzY3JyB0YXJnZXQ9J19zZWxmJx5SZXNvdXJjZXMgZm9yIEJpb2xvZ3kgU3R1ZGVudHNkAgEPFgIfBWZkAgsPZBYEZg8VAwkgY2xhc3M9IiJRIGhyZWY9Jy9pbnRlcm5hdGlvbmFscHJvZ3JhbXMvaW50ZXJuYXRpb25hbHByb2dyYW1zLmFzcHg/aWQ9MzUzMTgnIHRhcmdldD0nX3NlbGYnHVN1bW1lciBTZW1lc3RlciBpbiBDb3N0YSBSaWNhZAIBDxYCHwVmZAIMD2QWBGYPFQMNIGNsYXNzPSJuZXN0IkYgaHJlZj0nL1dvcmtBcmVhL2xpbmtpdC5hc3B4P0xpbmtJZGVudGlmaWVyPUlEJkl0ZW1JRD00MTExNycgdGFyZ2V0PScnE1RoZSBBcmthbnNhcyBHYXJkZW5kAgEPFgIfBQIHFg5mD2QWBGYPFQQJIGNsYXNzPSIiNSBocmVmPScvYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9NDExMTgnIHRhcmdldD0nX3NlbGYnNSBocmVmPScvYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9NDExMTgnIHRhcmdldD0nX3NlbGYnEFJhcmUgYW5kIEVuZGVtaWNkAgEPFgIfBWZkAgEPZBYEZg8VBAkgY2xhc3M9IiI1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MTExOScgdGFyZ2V0PSdfc2VsZic1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MTExOScgdGFyZ2V0PSdfc2VsZicZQnV0dGVyZmx5IGFuZCBIdW1taW5nYmlyZGQCAQ8WAh8FZmQCAg9kFgRmDxUECSBjbGFzcz0iIjUgaHJlZj0nL2Jpb2xvZ3kvYmlvbG9neS5hc3B4P2lkPTQxMTIwJyB0YXJnZXQ9J19zZWxmJzUgaHJlZj0nL2Jpb2xvZ3kvYmlvbG9neS5hc3B4P2lkPTQxMTIwJyB0YXJnZXQ9J19zZWxmJwNCb2dkAgEPFgIfBWZkAgMPZBYEZg8VBAkgY2xhc3M9IiI1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MTEyMScgdGFyZ2V0PSdfc2VsZic1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MTEyMScgdGFyZ2V0PSdfc2VsZicYTmF0dXJhbCBUcmVlcyBhbmQgUGxhbnRzZAIBDxYCHwVmZAIED2QWBGYPFQQJIGNsYXNzPSIiNSBocmVmPScvYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9NDExMjInIHRhcmdldD0nX3NlbGYnNSBocmVmPScvYmlvbG9neS9iaW9sb2d5LmFzcHg/aWQ9NDExMjInIHRhcmdldD0nX3NlbGYnGE5hdHVyYWwgVHJlZXMgYW5kIFNocnVic2QCAQ8WAh8FZmQCBQ9kFgRmDxUECSBjbGFzcz0iIjUgaHJlZj0nL2Jpb2xvZ3kvYmlvbG9neS5hc3B4P2lkPTQxMTIzJyB0YXJnZXQ9J19zZWxmJzUgaHJlZj0nL2Jpb2xvZ3kvYmlvbG9neS5hc3B4P2lkPTQxMTIzJyB0YXJnZXQ9J19zZWxmJwlNZWRpY2luYWxkAgEPFgIfBWZkAgYPZBYEZg8VBAkgY2xhc3M9IiI1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MTEyNCcgdGFyZ2V0PSdfc2VsZic1IGhyZWY9Jy9iaW9sb2d5L2Jpb2xvZ3kuYXNweD9pZD00MTEyNCcgdGFyZ2V0PSdfc2VsZicHUHJhaXJpZWQCAQ8WAh8FZmQCAQ8WAh8FZmQCEQ8PFgQeNE5vQm90X1Jlc3BvbnNlVGltZUtleV9jdGwwMCRjdGwwMCRCb2R5Q29udGVudCROb0JvdDIGmRbeE/Kf2UgeMk5vQm90X1Nlc3Npb25LZXlLZXlfY3RsMDAkY3RsMDAkQm9keUNvbnRlbnQkTm9Cb3QyBUJOb0JvdF9TZXNzaW9uS2V5X2N0bDAwJGN0bDAwJEJvZHlDb250ZW50JE5vQm90Ml82Mzc3MTY2ODQyOTM4NTk3MzdkFgICAQ8WAh4PQ2hhbGxlbmdlU2NyaXB0BQR+Mzg1ZAIFD2QWBAIBDxYCHwUCDxYeZg9kFgJmDxUDES9kaXNjb3ZlcmhlbmRyaXgvBV9zZWxmDUFib3V0IEhlbmRyaXhkAgEPZBYCZg8VAwsvY2FsZW5kYXJzLwVfc2VsZhJBY2FkZW1pYyBDYWxlbmRhcnNkAgIPZBYCZg8VAwovYXRobGV0aWNzBV9zZWxmCUF0aGxldGljc2QCAw9kFgJmDxUDbS9hcHBseS8/dXRtX2NhbXBhaWduPWFwcGx5TGlua3MmYW1wO3V0bV9zb3VyY2U9Z2xvYmFsJmFtcDt1dG1fbWVkaXVtPWZvb3Rlck5hdiZhbXA7dXRtX2NvbnRlbnQ9Zm9vdGVyTmF2QXBwbHkFX3NlbGYQQXBwbHkgdG8gSGVuZHJpeGQCBA9kFgJmDxUDDy9iYWlsZXlsaWJyYXJ5LwVfc2VsZg5CYWlsZXkgTGlicmFyeWQCBQ9kFgJmDxUDCi9jYW1wdXN3ZWIFX3NlbGYKQ2FtcHVzIFdlYmQCBg9kFgJmDxUDDC9sZWFkZXJzaGlwLwVfc2VsZhJIZW5kcml4IExlYWRlcnNoaXBkAgcPZBYCZg8VAwUvam9icwVfc2VsZhFKb2IgT3Bwb3J0dW5pdGllc2QCCA9kFgJmDxUDJS9hY2FkZW1pY2FmZmFpcnMvZGVmYXVsdC5hc3B4P2lkPTEwNzQFX3NlbGYNTWFqb3JzL01pbm9yc2QCCQ9kFgJmDxUDCy9tYWtlYWdpZnQvBV9zZWxmC01ha2UgYSBHaWZ0ZAIKD2QWAmYPFQMFL25ld3MFX3NlbGYLTmV3cyBDZW50ZXJkAgsPZBYCZg8VAwgvZXZlbnRzLwVfc2VsZg1QdWJsaWMgRXZlbnRzZAIMD2QWAmYPFQMbaHR0cHM6Ly9zcGlyaXQuaGVuZHJpeC5lZHUvBV9zZWxmDFNwaXJpdCBTdG9yZWQCDQ9kFgJmDxUDG2h0dHBzOi8vaGVuZHJpeC5lZHUvdGl0bGVpeAVfc2VsZh1UaXRsZSBJWCAvIE5vbi1EaXNjcmltaW5hdGlvbmQCDg9kFgJmDxUDBS93YWMvBV9zZWxmA1dBQ2QCAw8WAh8FAggWEGYPZBYCZg8VAwovZmFjZWJvb2svCGZhY2Vib29rCEZhY2Vib29rZAIBD2QWAmYPFQMJL3R3aXR0ZXIvB3R3aXR0ZXIHVHdpdHRlcmQCAg9kFgJmDxUDCS95b3V0dWJlLwd5b3V0dWJlB1lvdVR1YmVkAgMPZBYCZg8VAwgvZmxpY2tyLwZmbGlja3IGRmxpY2tyZAIED2QWAmYPFQMLL2luc3RhZ3JhbS8JaW5zdGFncmFtCUluc3RhZ3JhbWQCBQ9kFgJmDxUDDC9zb3VuZGNsb3VkLwpzb3VuZGNsb3VkClNvdW5kY2xvdWRkAgYPZBYCZg8VAwcvdmltZW8vBXZpbWVvBVZpbWVvZAIHD2QWAmYPFQMKL2xpbmtlZGluLwhsaW5rZWRpbghMaW5rZWRJbmQYAgUxY3RsMDAkY3RsMDAkR2xvYmFsTmF2MjAxNSRVaURlc2t0b3BMb2dpbk1lbnVWaWV3cw8PZGZkBTBjdGwwMCRjdGwwMCRHbG9iYWxOYXYyMDE1JFVpTW9iaWxlTG9naW5NZW51Vmlld3MPD2RmZIiF7tnjBij/Mbu+uL4puoOKyF5wjv+1Nm7lxENz/0Zq">
 </div>
 
-<script>
-var theForm = document.forms['aspnetForm'];
-if (!theForm) {
-    theForm = document.aspnetForm;
-}
-function __doPostBack(eventTarget, eventArgument) {
-    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
-        theForm.__EVENTTARGET.value = eventTarget;
-        theForm.__EVENTARGUMENT.value = eventArgument;
-        theForm.submit();
-    }
-}
-</script>
 
 <script src="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/WebResource.axd" ></script>
 <script src="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/ScriptResource.axd" ></script>
@@ -737,3 +635,88 @@ Sys.Application.add_init(function() {
     <script src="./The%20Hendrix%20College%20Campus%20Arboretum%20_%20Hendrix%20College_files/base2015-config.min.js.download"></script>
 </body>
 </html>
+
+
+@section Scripts{
+	<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap' async defer></script>
+	<script>
+	    //Start of MAP JS /
+			var map;
+			var infoboxTemplate = '<div class="customInfobox"><div class="title">{title}</div>{description}</div>';
+			// sets up infobox template
+	    function GetMap() {
+					// change bounds later to be specifc to tree data
+					var bounds = Microsoft.Maps.LocationRect.fromLocations(new Microsoft.Maps.Location(35.12,-92.48), new Microsoft.Maps.Location(35.05,-92.42));
+	        var map = new Microsoft.Maps.Map('#myMap', {
+	            credentials: 'Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO',
+	            center: new Microsoft.Maps.Location(35.10013507872911,-92.44089554043532),
+	            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+	            zoom: 16.5,
+							maxBounds: bounds
+	        });
+					//makes hidden infobox
+	        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+	          	visible: false
+	        });
+					// adds the infobox to the map
+					infobox.setMap(map);
+					// Testing importing excel files
+					// var XLSX = require('xlsx');
+					// var workbook = XLSX.readFile('HA Tree List.xlsx');
+					//
+					// var files = workbook.target.files, f = files[0];
+	  			// var reader = new FileReader();
+	  			// reader.onload = function(workbook) {
+	    		// 	var data = new Uint8Array(workbook.target.result);
+	    		// 	var workbook = XLSX.read(data, {type: 'array'});
+					//
+					// 	console.log(workbook);
+					// };
+					// reader.readAsArrayBuffer(f);
+					// input_dom_element.addEventListener('change', handleFile, false);
+
+					// can set it to long/Lat latter
+					var center = map.getCenter();
+					//set a list of random locations
+					var randomLocations = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+					// for loop sets pins to random locations
+					for (var i = 0; i < randomLocations.length; i++) {
+	            var pin = new Microsoft.Maps.Pushpin(randomLocations[i],{
+								text: ''+ (i + 1),
+								color: 'blue'
+							});
+	            // Need metadata with each pushpin to be initated
+							// but it will all be redisplayed afterwards (200+ pics rn)
+							// we will need to edit this to have variables for number and type of tree
+	            pin.metadata = {
+									text: ''+ (i + 1),
+	                title: 'Tree Number: ' + (i + 1),
+	                description: 'Tree Description: Ex.' + (i + 1)
+	            };
+					Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+					// pushes each pin to the map
+					map.entities.push(pin);
+				}
+			}
+
+			function pushpinClicked(e) {
+					if (e.target.metadata) {
+							infobox.setOptions({
+									location: e.target.getLocation(),
+									zIndex: 0,
+									offset: new Microsoft.Maps.Point(10, 0),
+									htmlContent: infoboxTemplate.replace('{title}', '<a class="infobox-close" href="javascript:closeInfobox()">X</a> <h3 id="Treetitle"> </h3>').replace('{description}', '<h5 id ="Treedesc"> </h5> <a style="color:blue; font-size:14px;" id ="Treelink" href ="/TreePage/Index?id=' + e.target.metadata.id + '"> Click here to learn more about this tree. </a>'),
+									visible: true
+							});
+							Treetitle.innerText = e.target.metadata.title;
+							Treedesc.innerText = e.target.metadata.description;
+					}
+			}
+
+			function closeInfobox() {
+					infobox.setOptions({ visible: false });
+			}
+
+	    </script>
+			<script src='http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Aiu-S4L-qkRYZ7dogH6LFdwd5x54LUlsUDcXkqUO4eI8lRk731jLM1GU3jyiMaPO' async defer></script>
+}
